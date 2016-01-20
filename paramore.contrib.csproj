@@ -58,6 +58,7 @@
     <Compile Include="TinyIoC.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="brighter\iocHelpers\TinyIoc\read.md" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
