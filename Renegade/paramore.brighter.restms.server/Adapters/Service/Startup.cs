@@ -104,7 +104,7 @@ namespace paramore.brighter.restms.server.Adapters.Service
             var cachingHandler = new CachingHandler(configuration);
             configuration.MessageHandlers.Add(cachingHandler);
             s_container.RegisterInstance<ICachingHandler>(cachingHandler);
-            var cache = new CacheHandler(cachingHandler);
+            var cache = new Cache.Cache(cachingHandler);
             s_container.RegisterInstance<IAmACache>(cache);
         }
 
