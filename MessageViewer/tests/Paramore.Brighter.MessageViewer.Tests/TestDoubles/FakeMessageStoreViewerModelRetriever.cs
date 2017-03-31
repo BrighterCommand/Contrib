@@ -39,7 +39,7 @@ using Paramore.Brighter.MessageViewer.Adaptors.API.Resources;
 using Paramore.Brighter.MessageViewer.Ports.Domain;
 using Paramore.Brighter.MessageViewer.Ports.ViewModelRetrievers;
 
-namespace Paramore.Brighter.Viewer.Tests.TestDoubles
+namespace Paramore.Brighter.MessageViewer.Tests.TestDoubles
 {
     public class FakeMessageStoreViewerModelRetriever : IMessageStoreViewerModelRetriever
     {

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Paramore.Brighter.MessageViewer.Ports.Handlers;
 
-namespace Paramore.Brighter.Viewer.Tests.TestDoubles
+namespace Paramore.Brighter.MessageViewer.Tests.TestDoubles
 {
     public class FakeHandlerFactory : IHandlerFactory
     {

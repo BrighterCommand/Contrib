@@ -38,8 +38,9 @@ THE SOFTWARE. */
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using paramore.brighter.commandprocessor;
 
-namespace Paramore.Brighter.Viewer.Tests.TestDoubles
+namespace Paramore.Brighter.MessageViewer.Tests.TestDoubles
 {
     internal class FakeMessageStoreWithViewer : IAmAMessageStoreViewer<Message>, IAmAMessageStore<Message>
     {

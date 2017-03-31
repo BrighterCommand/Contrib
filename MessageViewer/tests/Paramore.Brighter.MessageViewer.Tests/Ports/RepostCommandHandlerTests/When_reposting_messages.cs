@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using NUnit.Framework;
+using FluentAssertions;
+using paramore.brighter.commandprocessor;
 using Paramore.Brighter.MessageViewer.Ports.Handlers;
-using Paramore.Brighter.Tests.TestDoubles;
-using Paramore.Brighter.Viewer.Tests.TestDoubles;
+using Paramore.Brighter.MessageViewer.Tests.TestDoubles;
+using Xunit;
 
-namespace Paramore.Brighter.Viewer.Tests.Ports.RepostCommandHandlerTests
+namespace Paramore.Brighter.MessageViewer.Tests.Ports.RepostCommandHandlerTests
 {
     public class RepostCommandHandlerRepostTests
     {
@@ -15,8 +16,7 @@ namespace Paramore.Brighter.Viewer.Tests.Ports.RepostCommandHandlerTests
         private Message _messageToRepost;
         private FakeMessageProducer _fakeMessageProducer;
 
-        [SetUp]
-        public void Establish()
+        public RepostCommandHandlerRepostTests()
         {
             var fakeStore = new FakeMessageStoreWithViewer();
             _messageToRepost = new Message(new MessageHeader(Guid.NewGuid(), "a topic", MessageType.MT_COMMAND, DateTime.UtcNow), new MessageBody("body"));
@@ -28,13 +28,13 @@ namespace Paramore.Brighter.Viewer.Tests.Ports.RepostCommandHandlerTests
             _repostHandler = new RepostCommandHandler(fakeMessageStoreFactory, new FakeMessageProducerFactoryProvider(new FakeMessageProducerFactory(_fakeMessageProducer)), new MessageRecoverer());
         }
 
-        [Test]
+        [Fact]
         public void When_repositing_message()
         {
             _repostHandler.Handle(_command);
 
             //should_send_message_to_broker
-            Assert.True(_fakeMessageProducer.MessageWasSent);
+            _fakeMessageProducer.MessageWasSent.Should().BeTrue();
         }
    }
 }

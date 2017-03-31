@@ -18,7 +18,7 @@ namespace Paramore.Brighter.MessageViewer.Console
                 .SetBasePath(env.ContentRootPath).Build();
 
             var messageViewerConfiguration = new MessageViewerConfiguration();
-            ConfigurationBinder.Bind(configFromFile, messageViewerConfiguration);
+            configFromFile.Bind(messageViewerConfiguration);
             Config = messageViewerConfiguration;
         }
 

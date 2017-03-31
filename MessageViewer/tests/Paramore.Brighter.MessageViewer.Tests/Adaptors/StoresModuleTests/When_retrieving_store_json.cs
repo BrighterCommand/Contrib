@@ -1,23 +1,23 @@
 ﻿using System.Collections.Generic;
+using FluentAssertions;
 using Nancy.Json;
 using Nancy.Testing;
-using NUnit.Framework;
 using paramore.brighter.commandprocessor.messagestore.mssql;
 using Paramore.Brighter.MessageViewer.Adaptors.API.Modules;
 using Paramore.Brighter.MessageViewer.Adaptors.API.Resources;
 using Paramore.Brighter.MessageViewer.Ports.Domain.Config;
-using Paramore.Brighter.Viewer.Tests.TestDoubles;
+using Paramore.Brighter.MessageViewer.Tests.TestDoubles;
+using Xunit;
 
-namespace Paramore.Brighter.Viewer.Tests.Adaptors.StoresModuleTests
+namespace Paramore.Brighter.MessageViewer.Tests.Adaptors.StoresModuleTests
 {
-    [TestFixture]
     public class RetrieveMessageStoreContentTypeJsonTests
     {
         private readonly string _storeUri = "/stores/storeName";
         private Browser _browser;
         private BrowserResponse _result;
 
-        public void Establish()
+        public RetrieveMessageStoreContentTypeJsonTests()
         {
             _browser = new Browser(new ConfigurableBootstrapper(with =>
             {
@@ -34,6 +34,7 @@ namespace Paramore.Brighter.Viewer.Tests.Adaptors.StoresModuleTests
             }));
         }
 
+        [Fact]
         public void When_retrieving_store_json()
         {
             _result = _browser.Get(_storeUri, with =>
@@ -44,14 +45,14 @@ namespace Paramore.Brighter.Viewer.Tests.Adaptors.StoresModuleTests
                 .Result;
 
             //should_return_200_OK
-            Assert.AreEqual(Nancy.HttpStatusCode.OK, _result.StatusCode);
+            _result.StatusCode.Should().Be(Nancy.HttpStatusCode.OK);
             //should_return_json
-            StringAssert.Contains("application/json", _result.ContentType);
+            _result.ContentType.Should().Contain("application/json");
             //should_return_StoresListModel
             var serializer = new JavaScriptSerializer();
             var model = serializer.Deserialize<MessageStoreViewerModel>(_result.Body.AsString());
 
-            Assert.NotNull(model);
+            model.Should().NotBeNull();
         }
-  }
+    }
 }
