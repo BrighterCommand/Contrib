@@ -26,7 +26,7 @@ THE SOFTWARE.
 using System;
 using System.Diagnostics;
 
-namespace Paramore.Brighter.Viewer.Tests
+namespace Paramore.Brighter.MessageViewer.Tests
 {
     [DebuggerStepThrough]
     public static class Catch

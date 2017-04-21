@@ -35,15 +35,16 @@ THE SOFTWARE. */
 
 #endregion
 
+using FluentAssertions;
 using Nancy.Json;
 using Nancy.Testing;
-using NUnit.Framework;
 using Paramore.Brighter.MessageViewer.Adaptors.API.Modules;
 using Paramore.Brighter.MessageViewer.Adaptors.API.Resources;
 using Paramore.Brighter.MessageViewer.Ports.ViewModelRetrievers;
-using Paramore.Brighter.Viewer.Tests.TestDoubles;
+using Paramore.Brighter.MessageViewer.Tests.TestDoubles;
+using Xunit;
 
-namespace Paramore.Brighter.Viewer.Tests.Adaptors.MessagesModuleTests
+namespace Paramore.Brighter.MessageViewer.Tests.Adaptors.MessagesModuleTests
 {
     public class RetreiveMessageStoreReadFailureTests
     {
@@ -52,8 +53,7 @@ namespace Paramore.Brighter.Viewer.Tests.Adaptors.MessagesModuleTests
         private static readonly string _storeName = "storeThatCannotGet";
         private readonly string _uri = string.Format("/messages/{0}", _storeName);
 
-        [SetUp]
-        public void Establish()
+        public RetreiveMessageStoreReadFailureTests()
         {
             _browser = new Browser(new ConfigurableBootstrapper(with =>
             {
@@ -63,8 +63,7 @@ namespace Paramore.Brighter.Viewer.Tests.Adaptors.MessagesModuleTests
             }));
         }
 
-
-        [Test]
+        [Fact]
         public void When_retrieving_messages_with_store_that_cannot_get()
         {
             _result = _browser.Get(_uri, with =>
@@ -75,15 +74,15 @@ namespace Paramore.Brighter.Viewer.Tests.Adaptors.MessagesModuleTests
                 .Result;
 
             //should_return_500_Server_error
-            Assert.AreEqual(Nancy.HttpStatusCode.InternalServerError, _result.StatusCode);
+            _result.StatusCode.Should().Be(Nancy.HttpStatusCode.InternalServerError);
             //should_return_json
-            StringAssert.Contains("application/json", _result.ContentType);
+            _result.ContentType.Should().Contain("application/json");
             //should_return_error
              var serializer = new JavaScriptSerializer();
             var model = serializer.Deserialize<MessageViewerError>(_result.Body.AsString());
 
-            Assert.NotNull(model);
-            StringAssert.Contains("Unable", model.Message);
+            model.Should().NotBeNull();
+            model.Message.Should().Contain("Unable");
         }
    }
 }

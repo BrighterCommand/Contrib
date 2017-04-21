@@ -1,22 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.10
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{329736D2-BF92-4D06-A7BF-19F4B6B64EDD}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{329736D2-BF92-4D06-A7BF-19F4B6B64EDD}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CAB59F51-8E88-4616-AAF6-182AADDDE9F0}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-	EndProjectSection
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Paramore.Brighter.MessageViewer.Tests", "tests\Paramore.Brighter.MessageViewer.Tests\Paramore.Brighter.MessageViewer.Tests.csproj", "{AA3325CA-8B84-4D31-9D05-05F7AD9C2F3B}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Paramore.Brighter.MessageViewer.Tests", "tests\Paramore.Brighter.MessageViewer.Tests\Paramore.Brighter.MessageViewer.Tests.xproj", "{AA3325CA-8B84-4D31-9D05-05F7AD9C2F3B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Paramore.Brighter.MessageViewer", "src\Paramore.Brighter.Messageviewer\Paramore.Brighter.MessageViewer.csproj", "{97AF4A5C-9A84-496B-AA83-C36D8B0E53F8}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Paramore.Brighter.MessageViewer", "src\Paramore.Brighter.Messageviewer\Paramore.Brighter.MessageViewer.xproj", "{97AF4A5C-9A84-496B-AA83-C36D8B0E53F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Paramore.Brighter.MessageViewer.Console", "src\Paramore.Brighter.Messageviewer.Console\Paramore.Brighter.MessageViewer.Console.csproj", "{1EDB461F-78C0-4469-A3C3-8533C961A963}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Paramore.Brighter.MessageViewer.Console", "src\Paramore.Brighter.Messageviewer.Console\Paramore.Brighter.MessageViewer.Console.xproj", "{1EDB461F-78C0-4469-A3C3-8533C961A963}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Paramore.Brighter.MessageViewer.WindowsService", "src\Paramore.Brighter.Messageviewer.WindowsService\Paramore.Brighter.MessageViewer.WindowsService.xproj", "{C03C3BE3-7DBB-4E53-B957-3222DE4AD7DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Paramore.Brighter.MessageViewer.WindowsService", "src\Paramore.Brighter.Messageviewer.WindowsService\Paramore.Brighter.MessageViewer.WindowsService.csproj", "{C03C3BE3-7DBB-4E53-B957-3222DE4AD7DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

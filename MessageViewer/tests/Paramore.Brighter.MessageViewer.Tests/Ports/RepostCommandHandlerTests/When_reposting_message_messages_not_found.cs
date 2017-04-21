@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NUnit.Framework;
+using FluentAssertions;
+using paramore.brighter.commandprocessor;
 using Paramore.Brighter.MessageViewer.Ports.Handlers;
-using Paramore.Brighter.Tests.TestDoubles;
-using Paramore.Brighter.Viewer.Tests.TestDoubles;
+using Paramore.Brighter.MessageViewer.Tests.TestDoubles;
+using Xunit;
 
-namespace Paramore.Brighter.Viewer.Tests.Ports.RepostCommandHandlerTests
+namespace Paramore.Brighter.MessageViewer.Tests.Ports.RepostCommandHandlerTests
 {
     public class RepostCommandHandlerMessagesNotFoundTests
     {
@@ -16,8 +17,7 @@ namespace Paramore.Brighter.Viewer.Tests.Ports.RepostCommandHandlerTests
         private FakeMessageProducer _fakeMessageProducer;
         private Exception _ex;
 
-        [SetUp]
-        public void Establish()
+        public RepostCommandHandlerMessagesNotFoundTests()
         {
             var fakeStore = new FakeMessageStoreWithViewer();
             var fakeMessageStoreFactory = new FakeMessageStoreViewerFactory(fakeStore, _storeName);
@@ -27,16 +27,15 @@ namespace Paramore.Brighter.Viewer.Tests.Ports.RepostCommandHandlerTests
             _repostHandler = new RepostCommandHandler(fakeMessageStoreFactory, new FakeMessageProducerFactoryProvider(new FakeMessageProducerFactory(_fakeMessageProducer)), new MessageRecoverer());
         }
 
-        [Test]
+        [Fact]
         public void When_reposting_message_messages_not_found()
         {
             _ex = Catch.Exception(() => _repostHandler.Handle(_command));
 
             //should_throw_expected_exception
-            Assert.IsInstanceOf<Exception>(_ex);
-            StringAssert.Contains("messages", _ex.Message);
-            StringAssert.Contains(_command.MessageIds.Single(), _ex.Message);
+            _ex.Should().BeOfType<Exception>();
+            _ex.Message.Should().Contain("messages");
+            _ex.Message.Should().Contain(_command.MessageIds.Single());
         }
   }
-
 }

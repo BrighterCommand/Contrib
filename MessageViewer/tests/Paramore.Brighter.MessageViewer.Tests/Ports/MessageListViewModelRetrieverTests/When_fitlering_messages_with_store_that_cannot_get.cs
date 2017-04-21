@@ -1,11 +1,12 @@
 ﻿using System;
-using NUnit.Framework;
+using FluentAssertions;
 using Paramore.Brighter.MessageViewer.Adaptors.API.Resources;
 using Paramore.Brighter.MessageViewer.Ports.Domain;
 using Paramore.Brighter.MessageViewer.Ports.ViewModelRetrievers;
-using Paramore.Brighter.Viewer.Tests.TestDoubles;
+using Paramore.Brighter.MessageViewer.Tests.TestDoubles;
+using Xunit;
 
-namespace Paramore.Brighter.Viewer.Tests.Ports.MessageListViewModelRetrieverTests
+namespace Paramore.Brighter.MessageViewer.Tests.Ports.MessageListViewModelRetrieverTests
 {
     public class MessageListViewModelRetrieverFilterStoreErrorTests
     {
@@ -13,27 +14,25 @@ namespace Paramore.Brighter.Viewer.Tests.Ports.MessageListViewModelRetrieverTest
         private string storeName = "storeThatCannotGet";
         private MessageListViewModelRetriever _messageListViewModelRetriever;
 
-        [SetUp]
-        public void Establish()
+        public MessageListViewModelRetrieverFilterStoreErrorTests()
         {
             var fakeStoreNotViewer = new FakeMessageStoreViewerWithGetException();
             var modelFactory = new FakeMessageStoreViewerFactory(fakeStoreNotViewer, storeName);
             _messageListViewModelRetriever = new MessageListViewModelRetriever(modelFactory);
         }
 
-        [Test]
+        [Fact]
         public void When_fitlering_messages_with_store_that_cannot_get()
         {
             _result = _messageListViewModelRetriever.Filter(storeName, "term");
 
             //should_return_error
             var model = _result.Result;
-            Assert.Null(model);
-            Assert.True(_result.IsError);
-            Assert.AreEqual(MessageListModelError.StoreMessageViewerGetException, _result.Error);
-            Assert.NotNull(_result.Exception);
-            Assert.IsInstanceOf<AggregateException>(_result.Exception);
+            model.Should().BeNull();
+            _result.IsError.Should().BeTrue();
+            _result.Error.Should().Be(MessageListModelError.StoreMessageViewerGetException);
+            _result.Exception.Should().NotBeNull();
+            _result.Exception.Should().BeOfType<AggregateException>();
         }
-
     }
 }

@@ -1,10 +1,11 @@
-﻿using NUnit.Framework;
+﻿using FluentAssertions;
 using Paramore.Brighter.MessageViewer.Adaptors.API.Resources;
 using Paramore.Brighter.MessageViewer.Ports.Domain;
 using Paramore.Brighter.MessageViewer.Ports.ViewModelRetrievers;
-using Paramore.Brighter.Viewer.Tests.TestDoubles;
+using Paramore.Brighter.MessageViewer.Tests.TestDoubles;
+using Xunit;
 
-namespace Paramore.Brighter.Viewer.Tests.Ports.MessageListViewModelRetrieverTests
+namespace Paramore.Brighter.MessageViewer.Tests.Ports.MessageListViewModelRetrieverTests
 {
    public class MessageListVIewModelRetrieverFilterNonExistantStoreTests
     {
@@ -12,23 +13,22 @@ namespace Paramore.Brighter.Viewer.Tests.Ports.MessageListViewModelRetrieverTest
         private ViewModelRetrieverResult<MessageListModel, MessageListModelError> _result;
         private static string storeName = "storeNamenotInStore";
 
-        [SetUp]
-        public void Establish()
+        public MessageListVIewModelRetrieverFilterNonExistantStoreTests()
         {
             var modelFactory = FakeMessageStoreViewerFactory.CreateEmptyFactory();
             _messageListViewModelRetriever = new MessageListViewModelRetriever(modelFactory);
         }
 
-        [Test]
+        [Fact]
         public void When_filtering_messages_for_non_existent_store()
         {
             _result = _messageListViewModelRetriever.Filter(storeName, "term");
 
             //should_not_return_MessageListModel
              var model = _result.Result;
-            Assert.Null(model);
-            Assert.True(_result.IsError);
-            Assert.AreEqual(MessageListModelError.StoreNotFound, _result.Error);
+            model.Should().BeNull();
+            _result.IsError.Should().BeTrue();
+            _result.Error.Should().Be(MessageListModelError.StoreNotFound);
         }
    }
 }

@@ -37,15 +37,16 @@ THE SOFTWARE. */
 
 using System;
 using System.Collections.Generic;
+using FluentAssertions;
 using Nancy.Testing;
-using NUnit.Framework;
+using paramore.brighter.commandprocessor;
 using Paramore.Brighter.MessageViewer.Adaptors.API.Modules;
 using Paramore.Brighter.MessageViewer.Adaptors.API.Resources;
-using Paramore.Brighter.Viewer.Tests.TestDoubles;
+using Paramore.Brighter.MessageViewer.Tests.TestDoubles;
+using Xunit;
 
-namespace Paramore.Brighter.Viewer.Tests.Adaptors.MessagesModuleTests
+namespace Paramore.Brighter.MessageViewer.Tests.Adaptors.MessagesModuleTests
 {
-    [TestFixture]
     public class RetrieveMessagesForStoreTests
     {
         private static string _storeName = "testStore";
@@ -53,8 +54,7 @@ namespace Paramore.Brighter.Viewer.Tests.Adaptors.MessagesModuleTests
         private Browser _browser;
         private BrowserResponse _result;
 
-        [Test]
-        public void Establish()
+        public RetrieveMessagesForStoreTests()
         {
             var messages = new List<Message>
             {
@@ -71,8 +71,7 @@ namespace Paramore.Brighter.Viewer.Tests.Adaptors.MessagesModuleTests
             }));
         }
 
-
-        [Test]
+        [Fact]
         public void When_retrieving_messages_for_a_store()
         {
             _result = _browser.Get(_uri, with =>
@@ -83,12 +82,12 @@ namespace Paramore.Brighter.Viewer.Tests.Adaptors.MessagesModuleTests
                 .Result;
 
             //should_return_200_OK
-            Assert.AreEqual(Nancy.HttpStatusCode.OK, _result.StatusCode);
+            _result.StatusCode.Should().Be(Nancy.HttpStatusCode.OK);
             //should_return_json
-            StringAssert.Contains("application/json", _result.ContentType);
+            _result.ContentType.Should().Contain("application/json");
             //should_return_MessageListModel
              var model = Newtonsoft.Json.JsonConvert.DeserializeObject<MessageListModel>(_result.Body.AsString());
-            Assert.NotNull(model);
+            model.Should().NotBeNull();
         }
    }
 }

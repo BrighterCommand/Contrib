@@ -1,6 +1,7 @@
 ﻿using System;
+using paramore.brighter.commandprocessor;
 
-namespace Paramore.Brighter.Viewer.Tests.TestDoubles
+namespace Paramore.Brighter.MessageViewer.Tests.TestDoubles
 {
     internal class FakeErrorProducingMessageProducerFactory : IAmAMessageProducerFactory
     {
