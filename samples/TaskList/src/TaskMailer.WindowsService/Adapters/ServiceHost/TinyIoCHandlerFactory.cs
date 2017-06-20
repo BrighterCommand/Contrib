@@ -23,10 +23,10 @@ THE SOFTWARE. */
 #endregion
 
 using System;
-using paramore.brighter.commandprocessor;
+using Paramore.Brighter;
 using TinyIoC;
 
-namespace TaskMailer.Adapters.ServiceHost
+namespace TaskMailer.WindowsService.Adapters.ServiceHost
 {
     internal class TinyIocHandlerFactory : IAmAHandlerFactory
     {

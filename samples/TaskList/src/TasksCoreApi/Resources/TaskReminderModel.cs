@@ -1,7 +1,7 @@
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
-namespace TasksApi.Resources
+namespace TasksCoreApi.Resources
 {
     [DataContract, XmlRoot]
     public class TaskReminderModel

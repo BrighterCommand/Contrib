@@ -24,7 +24,7 @@ THE SOFTWARE. */
 
 using Topshelf;
 
-namespace TaskMailer.Adapters.ServiceHost
+namespace TaskMailer.WindowsService.Adapters.ServiceHost
 {
     internal class Program
     {

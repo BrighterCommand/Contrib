@@ -25,11 +25,12 @@ THE SOFTWARE. */
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using paramore.brighter.commandprocessor;
-using paramore.brighter.commandprocessor.messaginggateway.rmq;
-using paramore.brighter.commandprocessor.messaginggateway.rmq.MessagingGatewayConfiguration;
-using paramore.brighter.serviceactivator;
+using Paramore.Brighter;
+using Paramore.Brighter.MessagingGateway.RMQ;
+using Paramore.Brighter.MessagingGateway.RMQ.MessagingGatewayConfiguration;
+using Paramore.Brighter.ServiceActivator;
 using Polly;
+using TaskMailer.Core.Ports;
 using Tasks.Adapters.MailGateway;
 using Tasks.Ports;
 using Tasks.Ports.Commands;
@@ -38,7 +39,7 @@ using Tasks.Ports.Handlers;
 using TinyIoC;
 using Topshelf;
 
-namespace TaskMailer.Adapters.ServiceHost
+namespace TaskMailer.WindowsService.Adapters.ServiceHost
 {
     internal class TaskMailerService : ServiceControl
     {
@@ -82,14 +83,15 @@ namespace TaskMailer.Adapters.ServiceHost
 
             var messageMapperRegistry = new MessageMapperRegistry(messageMapperFactory)
             {
-                {typeof (TaskReminderCommand), typeof (Tasks.Ports.TaskReminderCommandMessageMapper)},
-                {typeof (TaskReminderSentEvent), typeof (TaskMailer.Ports.TaskReminderSentEventMapper)}
+                {typeof (TaskReminderCommand), typeof (TaskReminderCommandMessageMapper)},
+                {typeof (TaskReminderSentEvent), typeof (TaskReminderSentEventMapper)}
             };
             var rmqConnnection = new RmqMessagingGatewayConnection
             {
                 AmpqUri = new AmqpUriSpecification(new Uri("amqp://guest:guest@localhost:5672/%2f")),
                 Exchange = new Exchange("paramore.brighter.exchange"),
             };
+
             var commandProcessor = CommandProcessorBuilder.With()
                 .Handlers(new HandlerConfiguration(subscriberRegistry, handlerFactory))
                 .Policies(policyRegistry)
@@ -101,18 +103,16 @@ namespace TaskMailer.Adapters.ServiceHost
 
             var rmqMessageConsumerFactory = new RmqMessageConsumerFactory(rmqConnnection);
             var rmqMessageProducerFactory = new RmqMessageProducerFactory(rmqConnnection);
-            var inputChannelFactory = new InputChannelFactory(new RmqMessageConsumerFactory(rmqConnnection), new RmqMessageProducerFactory(rmqConnnection));
-            
+         
             var connections = new List<Connection>
             {
-                // Events with mapper and handler overrides
-                new Connection(new ConnectionName("Task.Reminder"),inputChannelFactory, typeof(TaskReminderCommand), new ChannelName("Task.Reminder"), "Task.Reminder", noOfPerformers:1, timeoutInMilliseconds: 200),
+                new Connection<TaskReminderCommand>(new ConnectionName("Task.Reminder"), new ChannelName("Task.Reminder"), new RoutingKey("Task.Reminder"))
             };
 
             _dispatcher = DispatchBuilder.With()
                 .CommandProcessor(commandProcessor)
                 .MessageMappers(messageMapperRegistry)
-                .ChannelFactory(new InputChannelFactory(rmqMessageConsumerFactory, rmqMessageProducerFactory))
+                .DefaultChannelFactory(new InputChannelFactory(rmqMessageConsumerFactory, rmqMessageProducerFactory))
                 .Connections(connections)
                 .Build();
         }

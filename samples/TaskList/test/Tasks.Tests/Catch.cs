@@ -26,7 +26,7 @@ THE SOFTWARE.
 using System;
 using System.Diagnostics;
 
-namespace TasksTests
+namespace Tasks.Tests
 {
     [DebuggerStepThrough]
     public static class Catch

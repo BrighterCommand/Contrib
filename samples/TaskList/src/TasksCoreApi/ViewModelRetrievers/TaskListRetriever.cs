@@ -23,9 +23,9 @@ THE SOFTWARE. */
 #endregion
 
 using Tasks.Adapters.DataAccess;
-using TasksApi.Resources;
+using TasksCoreApi.Resources;
 
-namespace TasksApi.ViewModelRetrievers
+namespace TasksCoreApi.ViewModelRetrievers
 {
     public class TaskListRetriever : ITaskListRetriever
     {

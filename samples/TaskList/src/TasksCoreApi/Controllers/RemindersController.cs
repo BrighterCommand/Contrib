@@ -1,10 +1,10 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
-using paramore.brighter.commandprocessor;
+using Paramore.Brighter;
 using Tasks.Ports.Commands;
-using TasksApi.Resources;
+using TasksCoreApi.Resources;
 
-namespace TasksApi.Controllers
+namespace TasksCoreApi.Controllers
 {
     [Route("api/[controller]")]
     public class RemindersController

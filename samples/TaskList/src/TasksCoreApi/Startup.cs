@@ -4,21 +4,21 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using paramore.brighter.commandprocessor;
-using paramore.brighter.commandprocessor.messagestore.sqlite;
-using paramore.brighter.commandprocessor.messaginggateway.rmq;
-using paramore.brighter.commandprocessor.messaginggateway.rmq.MessagingGatewayConfiguration;
+using Paramore.Brighter;
+using Paramore.Brighter.MessageStore.Sqlite;
+using Paramore.Brighter.MessagingGateway.RMQ;
+using Paramore.Brighter.MessagingGateway.RMQ.MessagingGatewayConfiguration;
 using Polly;
+using StructureMap;
 using Tasks.Adapters.DataAccess;
 using Tasks.Ports;
 using Tasks.Ports.Commands;
 using Tasks.Ports.Events;
 using Tasks.Ports.Handlers;
-using TasksApi.MessageMappers;
-using TasksApi.ViewModelRetrievers;
-using StructureMap;
+using TasksCoreApi.MessageMappers;
+using TasksCoreApi.ViewModelRetrievers;
 
-namespace TasksApi
+namespace TasksCoreApi
 {
     public class Startup
     {

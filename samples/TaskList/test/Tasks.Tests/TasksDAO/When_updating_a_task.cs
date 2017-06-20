@@ -26,7 +26,7 @@ using System;
 using NUnit.Framework;
 using Tasks.Model;
 
-namespace TasksTests.TasksDAO
+namespace Tasks.Tests.TasksDAO
 {
     [TestFixture]
     public class TasksDAOUpdateTests

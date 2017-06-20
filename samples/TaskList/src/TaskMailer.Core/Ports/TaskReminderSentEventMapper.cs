@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
-using paramore.brighter.commandprocessor;
+using Paramore.Brighter;
 using Tasks.Ports.Events;
 
-namespace TaskMailer.Ports
+namespace TaskMailer.Core.Ports
 {
     public class TaskReminderSentEventMapper : IAmAMessageMapper<TaskReminderSentEvent>
     {

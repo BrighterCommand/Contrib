@@ -1,13 +1,13 @@
 ﻿using System;
 using FakeItEasy;
 using NUnit.Framework;
-using paramore.brighter.commandprocessor;
+using Paramore.Brighter;
 using Tasks.Adapters.DataAccess;
 using Tasks.Ports.Commands;
 using Tasks.Ports.Events;
 using Tasks.Ports.Handlers;
 
-namespace TasksTests.TaskCommandHandlers
+namespace Tasks.Tests.TaskCommandHandlers
 {
     [TestFixture]
     public class CompleteTaskCommandHandlerTests
