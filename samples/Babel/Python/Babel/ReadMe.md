@@ -1,6 +1,10 @@
 # Setup
-We recommend you use a virtual environment to to run the examples
 You will need to have RabbitMQ installed to use this sample
+
+# Restore
+We recommend you use a virtual environment to to run the examples
+Alternatively you could use Docker
+You will then need to restore the dependencies for the dependencies for these projects
 
 pip install -r requirements.txt
 
@@ -10,5 +14,7 @@ The receiver will run until you terminate with CRTL+Z, so you will need two term
 
 python receiver.py
 python sender.py YOUR_NAME
+
+
 
 
