@@ -29,6 +29,7 @@ THE SOFTWARE.
 ***********************************************************************
 """
 
+import os
 import logging
 import sys
 import time
@@ -48,6 +49,7 @@ KEYBOARD_INTERRUPT_SLEEP = 3    # How long before checking for a keyboard interr
 
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
+amqp_uri = os.environ.get('BABEL_BROKER')
 
 def command_processor_factory(channel_name:str):
     handler = HelloWorldCommandHandler()
@@ -71,7 +73,8 @@ def map_my_command_to_request(message: BrightsideMessage) -> Request:
 
 def run():
     pipeline = Queue()
-    connection = Connection("amqp://guest:guest@localhost:5672//", "paramore.brighter.exchange", is_durable=False)
+    # connection = Connection("amqp://guest:guest@localhost:5672//", "paramore.brighter.exchange", is_durable=False)
+    connection = Connection(amqp_uri, "paramore.brighter.exchange", is_durable=False)
     configuration = BrightsideConsumerConfiguration(pipeline, "greetings_queue", "greeting.event")
     consumer = ConsumerConfiguration(connection, configuration, consumer_factory, command_processor_factory, map_my_command_to_request)
     dispatcher = Dispatcher({"HelloWorldCommand": consumer})

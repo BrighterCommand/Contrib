@@ -3,6 +3,7 @@ using GreetingsCore.Adapters.Factories;
 using GreetingsCore.Ports.Events;
 using GreetingsCore.Ports.Handlers;
 using GreetingsCore.Ports.Mappers;
+using Microsoft.Extensions.Configuration;
 using Paramore.Brighter;
 using Paramore.Brighter.MessagingGateway.RMQ;
 using Paramore.Brighter.MessagingGateway.RMQ.MessagingGatewayConfiguration;
@@ -17,6 +18,12 @@ namespace GreetingsReceiver
     {
         public static void Main(string[] args)
         {
+
+            var builder = new ConfigurationBuilder()
+                .AddEnvironmentVariables();
+
+            var configuration = builder.Build();
+            
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.LiterateConsole()
                 .CreateLogger();
@@ -56,10 +63,12 @@ namespace GreetingsReceiver
                 { typeof(GreetingEvent), typeof(GreetingEventMessageMapper) }
             };
 
+            var amqpUri = configuration["BABEL_BROKER"];
             //create the gateway
             var rmqConnnection = new RmqMessagingGatewayConnection 
             {
-                AmpqUri  = new AmqpUriSpecification(new Uri("amqp://guest:guest@localhost:5672/%2f")),
+                AmpqUri  = new AmqpUriSpecification(new Uri(amqpUri)),
+                //AmpqUri  = new AmqpUriSpecification(new Uri("amqp://guest:guest@localhost:5672/%2f")),
                 Exchange = new Exchange("paramore.brighter.exchange"),
             };
 

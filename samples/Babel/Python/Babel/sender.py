@@ -31,6 +31,7 @@ THE SOFTWARE.
 
 import argparse
 import logging
+import os
 import sys
 
 from arame.gateway import ArameProducer
@@ -43,6 +44,7 @@ from src.core import FakeMessageStore, HelloWorldCommand
 
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
+amqp_uri = os.environ.get('BABEL_BROKER')
 
 def map_hellworldcommand_to_message(request: HelloWorldCommand) -> BrightsideMessage:
     message_body = BrightsideMessageBody(JsonRequestSerializer(request=request).serialize_to_json())
@@ -58,7 +60,8 @@ def run():
     message_store = FakeMessageStore()
     message_mapper_registry = MessageMapperRegistry()
     message_mapper_registry.register(HelloWorldCommand, map_hellworldcommand_to_message)
-    connection = Connection("amqp://guest:guest@localhost:5672//", "paramore.brighter.exchange", is_durable=False)
+    connection = Connection(amqp_uri, "paramore.brighter.exchange", is_durable=False)
+    # connection = Connection("amqp://guest:guest@localhost:5672//", "paramore.brighter.exchange", is_durable=False)
     producer = ArameProducer(connection)
 
     command_processor = CommandProcessor(
