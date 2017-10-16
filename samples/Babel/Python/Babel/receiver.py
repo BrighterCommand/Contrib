@@ -73,7 +73,6 @@ def map_my_command_to_request(message: BrightsideMessage) -> Request:
 
 def run():
     pipeline = Queue()
-    # connection = Connection("amqp://guest:guest@localhost:5672//", "paramore.brighter.exchange", is_durable=False)
     connection = Connection(amqp_uri, "paramore.brighter.exchange", is_durable=False)
     configuration = BrightsideConsumerConfiguration(pipeline, "greetings_queue", "greeting.event")
     consumer = ConsumerConfiguration(connection, configuration, consumer_factory, command_processor_factory, map_my_command_to_request)

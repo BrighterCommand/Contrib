@@ -61,7 +61,6 @@ def run():
     message_mapper_registry = MessageMapperRegistry()
     message_mapper_registry.register(HelloWorldCommand, map_hellworldcommand_to_message)
     connection = Connection(amqp_uri, "paramore.brighter.exchange", is_durable=False)
-    # connection = Connection("amqp://guest:guest@localhost:5672//", "paramore.brighter.exchange", is_durable=False)
     producer = ArameProducer(connection)
 
     command_processor = CommandProcessor(
